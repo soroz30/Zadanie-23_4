@@ -1,1 +1,12 @@
 /* Lane styles */
+
+.AddLane {
+	margin: 0 0 20px;
+	padding: 7px;
+	width: 248px;
+}
+
+.Lane {
+	float: left;
+	margin: 0 20px 0 0;
+}

@@ -34,31 +34,31 @@ export function getLanes(req, res) {
 
 export function deleteLane(req, res) {
   Lane.findOne({ id: req.params.laneId }).exec((err, lane) => {
-    if (err) {
+    if (err) { 
       res.status(500).send(err);
     }
 
     lane.notes.forEach(function(note) {
-      Note.findOneAndRemove({ id: note.id}, (err, note) => {
+      Note.findOneAndRemove({ id: note.id}).exec((err, note) => {
         if (err) {
           res.status(500).send(err);
         }
-      });
+      })
     });
 
     lane.remove(() => {
-      res.status(200).end();
+      res.json( lane );
     });
   });
 }
 
 export function editName(req, res) {
-  Lane.findOneAndUpdate({ id: req.params.laneId }, {$set:{name: req.body.name}},
-    (err, lane) => {
-      if (err) {
-         res.status(500).send(err);
+  Lane.findOneAndUpdate({ id: req.params.laneId }, {$set:{name: req.body.name}}, {new: true})
+      .exec((err, lane) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+        res.json(lane);
       }
-      res.status(200).end();
-    }
-  );
+  )
 }

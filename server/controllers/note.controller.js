@@ -2,6 +2,8 @@ import Note from '../models/note';
 import Lane from '../models/lane';
 import uuid from 'uuid';
 
+import omit from 'lodash/omit';
+
 export function getSomething(req, res) {
   return res.status(200).end();
 }
@@ -14,47 +16,57 @@ export function addNote(req, res) {
   }
 
   const newNote = new Note({
-      task: note.task,
+    task: note.task,
   });
   
   newNote.id = uuid();
-  newNote.save((err, saved) => {
+  newNote.save((err, savedNote) => {
     if (err) {
       res.status(500).send(err)
     }
     Lane.findOne({ id: laneId })
-      .then(lane => {
-        lane.notes.push(saved);
-        return lane.save((err, saved) => {
+        .then(lane => {
+          lane.notes.push(savedNote);
+          return lane.save((err, savedLane) => {
             if (err) {
               res.status(500).send(err);
             }
-              res.json( saved );
-          });
-      })
+          })
+        })
+    res.json(savedNote)
   });
 }
 
 export function deleteNote(req, res) {
-  Note.findOne({ id: req.params.noteId }).exec((err, note) => {
+  const noteId = req.params.noteId
+  Note.findOne({ id: noteId }).exec((err, note) => {
     if (err) {
       res.status(500).send(err);
     }
-    
+
     note.remove(() => {
-      res.status(200).end();
+      Lane.findOne({id: req.body.laneId}).exec((err, lane) => {
+        const updatedNotes = lane.notes.filter(note => note.id !== noteId);
+        lane.notes = updatedNotes;
+        lane.save();
+        res.json(note);
+      });
     });
   });
 }
 
 export function updateTask(req, res) {
-  Note.findOneAndUpdate({ id: req.params.noteId }, {$set: {task: req.body.task}},
-    (err, doc) => {
-      if (err) {
-        res.status(500).send(err);
-      }
-
-      res.status(200).end();
-     }
-  )
+  const newTask = req.body.note.task;
+  Note.findOneAndUpdate({ id: req.params.noteId }, {$set: {task: newTask}}, {new: true})
+      .exec((err, note) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+        Lane.findOne({id: req.body.laneId}).exec((err, lane) => {
+          const notesIndex = lane.notes.findIndex(note => note.id === req.params.noteId);
+          lane.notes[notesIndex].task = newTask;
+          lane.save();
+          res.json(note);
+        });
+      });
 }
