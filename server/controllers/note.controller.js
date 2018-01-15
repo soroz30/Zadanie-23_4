@@ -26,6 +26,7 @@ export function addNote(req, res) {
     }
     Lane.findOne({ id: laneId })
         .then(lane => {
+            console.log(savedNote);
           lane.notes.push(savedNote);
           return lane.save((err, savedLane) => {
             if (err) {
@@ -63,6 +64,8 @@ export function updateTask(req, res) {
           res.status(500).send(err);
         }
         Lane.findOne({id: req.body.laneId}).exec((err, lane) => {
+          console.log(req.body);
+          console.log(lane);
           const notesIndex = lane.notes.findIndex(note => note.id === req.params.noteId);
           lane.notes[notesIndex].task = newTask;
           lane.save();

@@ -3,11 +3,16 @@ import Note from './Note';
 import Edit from '../../components/Edit';
 
 const Notes = (props) => {
-  const { notes, laneId, editNote, updateNoteRequest, deleteNoteRequest } = props;
+  const { notes, laneId, editNote, updateNoteRequest, deleteNoteRequest, moveWithinLane, moveBetweenLanes, clearLanesChanges, changes } = props;
   return (<ul className='notes'>{notes.map((note) =>
     <Note
       id={note.id}
       key={note.id}
+      moveWithinLane={moveWithinLane}
+      moveBetweenLanes={moveBetweenLanes}
+      clearLanesChanges={clearLanesChanges}
+      laneId={laneId}
+      changes={changes}
     >
       <Edit
         editing={note.editing}
@@ -31,6 +36,7 @@ Notes.propTypes = {
     laneId: PropTypes.string,
     editNote: PropTypes.func,
     notes: PropTypes.array,
+    changes: PropTypes.object
 };
 
 export default Notes;

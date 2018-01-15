@@ -6,6 +6,8 @@ export const CREATE_NOTES = 'CREATE_NOTES';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const EDIT_NOTE = 'EDIT_NOTE';
+export const MOVE_WITHIN_LANE = 'MOVE_WITHIN_LANE';
+export const CLEAR_ACTIVE_LANE = 'CLEAR_ACTIVE_LANE';
 
 // Export Actions
 
@@ -68,4 +70,13 @@ export function editNote(noteId) {
     type: EDIT_NOTE,
     id: noteId
   }
+}
+
+export function moveWithinLane(laneId, targetId, sourceId) {
+  return {
+    type: MOVE_WITHIN_LANE,
+    laneId,
+    targetId,
+    sourceId,
+  };
 }
