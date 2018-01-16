@@ -12,6 +12,7 @@ export const CREATE_LANES = 'CREATE_LANES';
 export const FETCH_LANES = 'FETCH_LANES';
 export const MOVE_BETWEEN_LANES = 'MOVE_BETWEEN_LANES';
 export const CLEAR_LANES_CHANGES = 'CLEAR_LANES_CHANGES';
+export const UPDATE_LANES_NOTES = 'UPDATE_LANES_NOTES';
 
 // Export Actions
 export function createLane(lane) {
@@ -95,6 +96,13 @@ export function moveBetweenLanes(targetLaneId, sourceLaneId, sourceNoteId, targe
     sourceNoteId,
     targetNoteId
   };
+}
+
+export function updateLanesNotes(updatedLanes) {
+  return (dispatch) => {
+    return callApi('lanes/update', 'post', updatedLanes).then(res => {
+    })
+  }
 }
 
 export function clearLanesChanges() {

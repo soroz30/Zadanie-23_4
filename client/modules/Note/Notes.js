@@ -3,7 +3,7 @@ import Note from './Note';
 import Edit from '../../components/Edit';
 
 const Notes = (props) => {
-  const { notes, laneId, editNote, updateNoteRequest, deleteNoteRequest, moveWithinLane, moveBetweenLanes, clearLanesChanges, changes } = props;
+  const { notes, laneId, editNote, updateNoteRequest, deleteNoteRequest, moveWithinLane, moveBetweenLanes, clearLanesChanges, changes, updateLanesNotes } = props;
   return (<ul className='notes'>{notes.map((note) =>
     <Note
       id={note.id}
@@ -13,6 +13,7 @@ const Notes = (props) => {
       clearLanesChanges={clearLanesChanges}
       laneId={laneId}
       changes={changes}
+      updateLanesNotes={updateLanesNotes}
     >
       <Edit
         editing={note.editing}

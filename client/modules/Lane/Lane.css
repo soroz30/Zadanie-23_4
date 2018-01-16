@@ -1,12 +1,28 @@
 /* Lane styles */
 
-.AddLane {
-	margin: 0 0 20px;
-	padding: 7px;
-	width: 248px;
-}
-
 .Lane {
 	float: left;
-	margin: 0 20px 0 0;
+	margin: 0 40px 0 0;
+	width: 150px;
+}
+
+.LaneName {
+	width: 135px;
+}
+
+.LaneHeader {
+	margin: 0 0 20px 0;
+}
+
+.LaneDelete {
+	display: inline-block;
+	margin: 0 0 0 10px;
+}
+
+.AddButton {
+	width: 100px;
+}
+
+.LaneAddNote {
+	text-align: center;
 }

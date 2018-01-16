@@ -14,7 +14,7 @@ class Note extends React.Component {
      isDragging,
      editing,
      children,
-     changes,
+     changes
     } = this.props;
 
     const dragSource = editing ? a => a : connectDragSource;
@@ -49,7 +49,7 @@ const noteSource = {
     return props.id === monitor.getItem().id;
   },
   endDrag(props, monitor) {
-    console.log(props.changes);
+    props.updateLanesNotes(monitor.getDropResult().changes);
     props.clearLanesChanges();
   }
 };
@@ -61,17 +61,18 @@ const noteTarget = {
     return {
       sourceId: sourceProps.id,
       sourceLaneId: sourceProps.laneId,
+      changes: targetProps.changes,
     }
   },
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
 
     if (targetProps.id !== sourceProps.id) {
-        if (sourceProps.laneId === targetProps.laneId) {
-          targetProps.moveWithinLane(targetProps.laneId, targetProps.id, sourceProps.id);
-        } else if (targetProps.id !== sourceProps.id) {
-          targetProps.moveBetweenLanes(targetProps.laneId, sourceProps.laneId, sourceProps.id, targetProps.id);
-        }
+      if (sourceProps.laneId === targetProps.laneId) {
+        targetProps.moveWithinLane(targetProps.laneId, targetProps.id, sourceProps.id);
+      } else if (targetProps.id !== sourceProps.id) {
+        targetProps.moveBetweenLanes(targetProps.laneId, sourceProps.laneId, sourceProps.id, targetProps.id);
+      }
     }
   }
 }

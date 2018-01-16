@@ -79,9 +79,9 @@ export default function lanes(state = initialState, action) {
         targetLane.notes = [...targetLane.notes, action.sourceNoteId];
      } else if (targetLane.notes.indexOf(action.sourceNoteId) === -1) {
         targetLane.notes = insertNotes(targetLane.notes, action.sourceNoteId, action.targetNoteId);
-    } else {
+     } else {
         targetLane.notes = moveNotes(targetLane.notes, action.sourceNoteId, action.targetNoteId);
-    }
+     }
      const changedLanes = {[action.sourceLaneId]: updatedState[action.sourceLaneId].notes, [action.targetLaneId]: targetLane.notes};
      return { ...updatedState, [action.targetLaneId]: targetLane, changes: changedLanes};
    }

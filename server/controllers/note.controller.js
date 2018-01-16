@@ -64,8 +64,6 @@ export function updateTask(req, res) {
           res.status(500).send(err);
         }
         Lane.findOne({id: req.body.laneId}).exec((err, lane) => {
-          console.log(req.body);
-          console.log(lane);
           const notesIndex = lane.notes.findIndex(note => note.id === req.params.noteId);
           lane.notes[notesIndex].task = newTask;
           lane.save();
