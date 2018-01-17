@@ -101,6 +101,8 @@ export function moveBetweenLanes(targetLaneId, sourceLaneId, sourceNoteId, targe
 export function updateLanesNotes(updatedLanes) {
   return (dispatch) => {
     return callApi('lanes/update', 'post', updatedLanes).then(res => {
+        console.log(5);
+        console.log(res)
     })
   }
 }

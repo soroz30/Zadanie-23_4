@@ -64,7 +64,7 @@ export function editName(req, res) {
 }
 
 export function updateLanes(req, res) {
-  for (var laneId in req.body) {
+  for (const laneId in req.body) {
     const orderedNotesId = req.body[laneId];
     Note.find({id: { $in: orderedNotesId }}).then(notesRes => {
       const updatedNotes = orderedNotesId.map(noteId => {

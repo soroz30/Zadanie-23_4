@@ -65,9 +65,14 @@ export function updateTask(req, res) {
         }
         Lane.findOne({id: req.body.laneId}).exec((err, lane) => {
           const notesIndex = lane.notes.findIndex(note => note.id === req.params.noteId);
-          lane.notes[notesIndex].task = newTask;
-          lane.save();
-          res.json(note);
+          let newNotes = lane.notes;
+          newNotes[notesIndex].task = newTask;
+          lane.update({ notes: newNotes }, (err, lane) => {
+            if (err) {
+              res.status(500).send(err);
+            }
+            res.json(note);
+          });
         });
       });
 }
